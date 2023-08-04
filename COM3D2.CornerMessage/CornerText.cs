@@ -1,70 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace COM3D2.CornerMessage
 {
 	public class CornerText
 	{
-		private UILabel ScreenText;
-		internal string Text 
+		private readonly UILabel _screenText;
+
+		internal string Text
 		{
-			get => ScreenText.text;
-			set 
-			{
-				ScreenText.text = value;
-			}
+			get => _screenText.text;
+			set => _screenText.text = value;
 		}
+
 		internal Color Color
 		{
-			get => ScreenText.color;
-			set
-			{
-				ScreenText.color = value;
-			}
+			get => _screenText.color;
+			set => _screenText.color = value;
 		}
 
-		internal bool visible
+		internal bool Visible => _screenText.isVisible;
+
+		internal bool Active => _screenText.gameObject.activeInHierarchy;
+
+		internal CornerText()
 		{
-			get => ScreenText.isVisible;
-		}
+			var messageWindow = GameObject.Find("SystemUI Root").GetComponentsInChildren<Transform>(true).First(so => so && so.gameObject && so.name.Equals("SystemDialog")).gameObject;
 
-		internal bool active
-		{
-			get => ScreenText.gameObject.activeInHierarchy;
-		}
-		internal CornerText() 
-		{
-			var MessageWindow = GameObject.Find("SystemUI Root").GetComponentsInChildren<Transform>(true).First(so => so && so.gameObject && so.name.Equals("SystemDialog")).gameObject;
+			var msgWindowFont = messageWindow.GetComponentInChildren<UILabel>().trueTypeFont;
 
-			var MsgWindowFont = MessageWindow.GetComponentInChildren<UILabel>().trueTypeFont;
+			var uiRoot = GameObject.Find("SystemUI Root").GetComponent<UIRoot>();
 
-			var UIRoot = GameObject.Find("SystemUI Root").GetComponent<UIRoot>();
+			_screenText = NGUITools.AddChild<UILabel>(uiRoot.gameObject);
 
-			ScreenText = NGUITools.AddChild<UILabel>(UIRoot.gameObject);
+			var width = UIRoot.GetPixelSizeAdjustment(_screenText.gameObject) * Screen.width;
+			var height = UIRoot.GetPixelSizeAdjustment(_screenText.gameObject) * Screen.height;
 
-			var width = UIRoot.GetPixelSizeAdjustment(ScreenText.gameObject) * Screen.width;
-			var height = UIRoot.GetPixelSizeAdjustment(ScreenText.gameObject) * Screen.height;
-
-			ScreenText.trueTypeFont = MsgWindowFont;
-			ScreenText.transform.localPosition = new Vector3(20, height * 0.43f, 0);
-			ScreenText.width = (int)width;
-			ScreenText.fontSize = 19;
-			ScreenText.pivot = UIWidget.Pivot.TopLeft;
-			ScreenText.effectStyle = UILabel.Effect.Outline;
-			ScreenText.alignment = NGUIText.Alignment.Left;
-			ScreenText.overflowMethod = UILabel.Overflow.ResizeFreely;
-			ScreenText.supportEncoding = true;
-			ScreenText.keepCrispWhenShrunk = UILabel.Crispness.Always;
+			_screenText.trueTypeFont = msgWindowFont;
+			_screenText.transform.localPosition = new Vector3(20, height * 0.43f, 0);
+			_screenText.width = (int)width;
+			_screenText.fontSize = 19;
+			_screenText.pivot = UIWidget.Pivot.TopLeft;
+			_screenText.effectStyle = UILabel.Effect.Outline;
+			_screenText.alignment = NGUIText.Alignment.Left;
+			_screenText.overflowMethod = UILabel.Overflow.ResizeFreely;
+			_screenText.supportEncoding = true;
+			_screenText.keepCrispWhenShrunk = UILabel.Crispness.Always;
 			//ScreenText.multiLine = true;
 
-			ScreenText.gameObject.SetActive(false);
+			_screenText.gameObject.SetActive(false);
 		}
-		internal void SetState(bool active) 
+
+		internal void SetState(bool active)
 		{
-			ScreenText.gameObject.SetActive(active);
+			_screenText.gameObject.SetActive(active);
 		}
 	}
 }
