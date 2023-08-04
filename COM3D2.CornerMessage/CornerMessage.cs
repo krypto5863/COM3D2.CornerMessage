@@ -15,7 +15,7 @@ using UnityEngine;
 namespace COM3D2.CornerMessage
 {
 	//This is the metadata set for your plugin.
-	[BepInPlugin("COM3D2.CornerMessage", "COM3D2.CornerMessage", "1.0")]
+	[BepInPlugin("COM3D2.CornerMessage", "COM3D2.CornerMessage", "1.0.1")]
 	public class CornerMessage : BaseUnityPlugin
 	{
 		//static saving of the main Instance. This makes it easier to run stuff like co-routines from static methods or accessing non-static vars.
