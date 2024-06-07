@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="CornerText.cs" />
     <Compile Include="CornerMessage.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
